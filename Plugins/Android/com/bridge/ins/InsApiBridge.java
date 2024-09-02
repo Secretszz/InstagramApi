@@ -1,4 +1,4 @@
-﻿package com.ins.bridge;
+﻿package com.bridge.ins;
 
 import android.app.Activity;
 import android.content.Intent;

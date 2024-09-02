@@ -1,4 +1,4 @@
-package com.ins.bridge;
+package com.bridge.ins;
 
 /**
  * 分享监听

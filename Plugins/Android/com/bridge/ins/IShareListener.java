@@ -3,7 +3,7 @@ package com.bridge.ins;
 /**
  * 分享监听
  */
-public interface InsShareListener {
+public interface IShareListener {
     /**
      * 分享成功
      */

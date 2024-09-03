@@ -10,7 +10,7 @@
 
 #if UNITY_IOS
 
-namespace Instagram.Api
+namespace Bridge.InstagramApi
 {
 	using System;
 	using System.Runtime.InteropServices;

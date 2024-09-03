@@ -10,8 +10,8 @@ import androidx.core.content.FileProvider;
 
 import java.io.File;
 
-public class InsApiBridge {
-    private final static String TAG = InstagramApiManager.class.getName();
+public class InstagramApi {
+    private final static String TAG = InstagramApi.class.getName();
     private final static String packageName = "com.instagram.android";
 
     public static boolean isInstalledInstagram(Activity activity){

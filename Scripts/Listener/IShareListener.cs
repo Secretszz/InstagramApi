@@ -9,7 +9,7 @@
 // Create Time:		2024/04/28 14:43:29
 // *******************************************
 
-namespace Instagram.Api
+namespace Bridge.InstagramApi
 {
 	/// <summary>
 	/// 

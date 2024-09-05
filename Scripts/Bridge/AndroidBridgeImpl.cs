@@ -10,7 +10,7 @@
 
 #if UNITY_ANDROID
 
-namespace Instagram.Api
+namespace Bridge.InstagramApi
 {
 	using UnityEngine;
 
@@ -20,9 +20,9 @@ namespace Instagram.Api
 	internal class AndroidBridgeImpl : IBridge
 	{
 		private const string UnityPlayerClassName = "com.unity3d.player.UnityPlayer";
-		private const string BridgeClassName = "com.ins.bridge.InsApiBridge";
-		private const string InitClassName = "com.ins.bridge.IInitListener";
-		private const string ShareClassName = "com.ins.bridge.IShareListener";
+		private const string BridgeClassName = "com.bridge.ins.InstagramApi";
+		private const string InitClassName = "com.bridge.ins.IInitListener";
+		private const string ShareClassName = "com.bridge.ins.IShareListener";
 		private AndroidJavaClass bridge;
 		private AndroidJavaObject currentActivity;
 		

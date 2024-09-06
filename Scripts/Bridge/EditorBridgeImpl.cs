@@ -10,6 +10,8 @@
 
 namespace Bridge.InstagramApi
 {
+	using Common;
+	
 	/// <summary>
 	/// 
 	/// </summary>

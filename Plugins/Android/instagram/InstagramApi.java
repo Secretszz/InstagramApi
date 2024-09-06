@@ -1,4 +1,4 @@
-﻿package com.bridge.ins;
+﻿package com.bridge.instagram;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -7,6 +7,9 @@ import android.os.Build;
 import android.util.Log;
 
 import androidx.core.content.FileProvider;
+
+import com.bridge.common.listener.IInitListener;
+import com.bridge.common.listener.IShareListener;
 
 import java.io.File;
 

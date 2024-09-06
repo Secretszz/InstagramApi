@@ -12,6 +12,7 @@
 
 namespace Bridge.InstagramApi
 {
+	using Common;
 	using System;
 	using System.Runtime.InteropServices;
 	using UnityEngine;

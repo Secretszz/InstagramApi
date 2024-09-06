@@ -1,10 +1,13 @@
 {
-    "name": "Bridge.InstagramApi.Runtime",
+    "name": "Bridge.InstagramApi.Editor",
     "rootNamespace": "",
     "references": [
-        "GUID:b8f82d4f96f787249a73772d804f2438"
+        "GUID:92c3d3f22ede62643b00b5951466b066",
+        "GUID:c0b00d9517d6d3245aa3bca56e938ab8"
     ],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

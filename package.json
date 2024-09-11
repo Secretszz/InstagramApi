@@ -1,7 +1,7 @@
 {
   "name": "com.bridge.ins",
   "displayName": "ThirdSDK InstagramApi",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Instagram Open Platform Mobile Application SDK Adaptation Package.",
   "unity": "2022.3",
   "author": {

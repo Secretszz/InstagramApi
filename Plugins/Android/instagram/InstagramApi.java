@@ -8,8 +8,7 @@ import android.util.Log;
 
 import androidx.core.content.FileProvider;
 
-import com.bridge.common.listener.IInitListener;
-import com.bridge.common.listener.IShareListener;
+import com.bridge.common.listener.IBridgeListener;
 
 import java.io.File;
 
@@ -26,15 +25,15 @@ public class InstagramApi {
         }
     }
     
-    public static void init(Activity activity, IInitListener listener){
-        listener.onSuccess();
+    public static void init(Activity activity, IBridgeListener listener){
+        listener.onSuccess("");
     }
 
     /**
      * 分享图片
      * @param imagePath 图片本地地址
      */
-    public static void shareImage(Activity activity, final String imagePath, final IShareListener listener){
+    public static void shareImage(Activity activity, final String imagePath, final IBridgeListener listener){
         String type = "image/*";
         createInstagramIntent(activity, type, imagePath, listener);
     }
@@ -43,7 +42,7 @@ public class InstagramApi {
      * 分享视频
      * @param videoUrl 视频本地地址
      */
-    public static void shareVideo(Activity activity, String videoUrl, final IShareListener listener) {
+    public static void shareVideo(Activity activity, String videoUrl, final IBridgeListener listener) {
         String type = "video/*";
         createInstagramIntent(activity, type, videoUrl, listener);
     }
@@ -52,11 +51,11 @@ public class InstagramApi {
      * 分享视频
      * @param linkUrl 链接地址
      */
-    public static void shareLink(Activity activity, String linkUrl, final IShareListener listener) {
+    public static void shareLink(Activity activity, String linkUrl, final IBridgeListener listener) {
 		listener.onError(-1, "unsupported");
     }
 
-    private static void createInstagramIntent(Activity activity, String type, String mediaPath, final IShareListener listener){
+    private static void createInstagramIntent(Activity activity, String type, String mediaPath, final IBridgeListener listener){
         if (!isInstalledInstagram(activity)){
             listener.onError(-1, "Instagram not installed");
             return;
@@ -83,7 +82,7 @@ public class InstagramApi {
             share.setPackage(packageName);
             // Broadcast the Intent.
             activity.startActivity(Intent.createChooser(share, "Share to"));
-            listener.onSuccess();
+            listener.onSuccess("");
         } catch (Exception ex){
             Log.e(TAG, "createInstagramIntent: ", ex);
             listener.onError(-1, ex.getMessage());

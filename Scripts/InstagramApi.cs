@@ -41,7 +41,7 @@ namespace Bridge.InstagramApi
 			}
 		}
 		
-		public static void Init(IInitListener listener)
+		public static void Init(IBridgeListener listener)
 		{
 			bridgeImpl.Init(listener);
 		}
@@ -83,24 +83,24 @@ namespace Bridge.InstagramApi
 			return bridgeImpl.OpenAppAndTags(tagName);
 		}
 
-		public static void ShareImage(byte[] imageData, IShareListener listener)
+		public static void ShareImage(byte[] imageData, IBridgeListener listener)
 		{
 			bridgeImpl.ShareImage(imageData, listener);
 		}
 
 #endif
 
-		public static void ShareImage(string imagePath, IShareListener listener)
+		public static void ShareImage(string imagePath, IBridgeListener listener)
 		{
 			bridgeImpl.ShareImage(imagePath, listener);
 		}
 
-		public static void ShareLink(string linkUrl, IShareListener listener)
+		public static void ShareLink(string linkUrl, IBridgeListener listener)
 		{
 			bridgeImpl.ShareLink(linkUrl, listener);
 		}
 
-		public static void ShareVideo(string videoUrl, IShareListener listener)
+		public static void ShareVideo(string videoUrl, IBridgeListener listener)
 		{
 			bridgeImpl.ShareVideo(videoUrl, listener);
 		}

@@ -5,14 +5,16 @@
 //  Created by 晴天网络 on 2023/3/10.
 //
 
-typedef void(*OnFinishShare)(int errCode, const char* errMsg);
+#import "CommonApi.h"
 
 @interface InstagramApiManager : NSObject<UIDocumentInteractionControllerDelegate>
 
 /**
  分享回调
  */
-@property (nonatomic, assign) OnFinishShare onFinishShare;
+@property (nonatomic, assign) U3DBridgeCallback_Success onSuccess;
+@property (nonatomic, assign) U3DBridgeCallback_Cancel onCancel;
+@property (nonatomic, assign) U3DBridgeCallback_Error onError;
 
 /**
  文档交互

@@ -44,42 +44,52 @@ namespace Bridge.InstagramApi
 		private static extern bool ins_openAppAndTags(string tagName);
 
 		[DllImport("__Internal")]
-		private static extern void ins_openDocumentSharebyData(IntPtr imageData, int length, OnFinishShare onFinishShare);
+		private static extern void ins_openDocumentSharebyData(IntPtr imageData, int length, U3DBridgeCallback_Success onSuccess, U3DBridgeCallback_Cancel onCancel, U3DBridgeCallback_Error onError);
 
 		[DllImport("__Internal")]
-		private static extern void ins_openDocumentShare(string imagePath, OnFinishShare onFinishShare);
+		private static extern void ins_openDocumentShare(string imagePath, U3DBridgeCallback_Success onSuccess, U3DBridgeCallback_Cancel onCancel, U3DBridgeCallback_Error onError);
 
-		/// <summary>
-		/// iOS桥接分享回调事件
-		/// </summary>
-		private delegate void OnFinishShare(int errCode, string errMsg);
-
-		/// <summary>
-		/// Unity分享回调事件
-		/// </summary>
-		private static IShareListener _shareListener;
-
-		/// <summary>
-		/// iOS桥接分享回调事件
-		/// </summary>
-		/// <param name="errCode"></param>
-		/// <param name="errMsg"></param>
-		[AOT.MonoPInvokeCallback(typeof(OnFinishShare))]
-		private static void ShareCallback(int errCode, string errMsg)
+		private static class ShareCallback
 		{
-			if (errCode == 0)
+			/// <summary>
+			/// 分享回调监听
+			/// </summary>
+			public static IBridgeListener _shareListener;
+
+			/// <summary>
+			/// 支付成功回调桥接函数
+			/// </summary>
+			/// <param name="result"></param>
+			[AOT.MonoPInvokeCallback(typeof(U3DBridgeCallback_Success))]
+			public static void OnSuccess(string result)
 			{
-				_shareListener?.OnSuccess();
+				_shareListener?.OnSuccess(result);
 			}
-			else
+
+			/// <summary>
+			/// 支付用户取消回调桥接函数
+			/// </summary>
+			[AOT.MonoPInvokeCallback(typeof(U3DBridgeCallback_Cancel))]
+			public static void OnCancel()
+			{
+				_shareListener?.OnCancel();
+			}
+
+			/// <summary>
+			/// 支付错误回调桥接函数
+			/// </summary>
+			/// <param name="errCode"></param>
+			/// <param name="errMsg"></param>
+			[AOT.MonoPInvokeCallback(typeof(U3DBridgeCallback_Error))]
+			public static void OnError(int errCode, string errMsg)
 			{
 				_shareListener?.OnError(errCode, errMsg);
 			}
 		}
 
-		void IBridge.Init(IInitListener listener)
+		void IBridge.Init(IBridgeListener listener)
 		{
-			listener.OnSuccess();
+			listener.OnSuccess("");
 		}
 
 		bool IBridge.IsInstalled()
@@ -117,38 +127,38 @@ namespace Bridge.InstagramApi
 			return ins_openAppAndTags(tagName);
 		}
 
-		void IBridge.ShareImage(string imagePath, IShareListener listener)
+		void IBridge.ShareImage(string imagePath, IBridgeListener listener)
 		{
-			_shareListener = listener;
-			ins_openDocumentShare(imagePath, ShareCallback);
+			ShareCallback._shareListener = listener;
+			ins_openDocumentShare(imagePath, ShareCallback.OnSuccess, ShareCallback.OnCancel, ShareCallback.OnError);
 		}
 
-		void IBridge.ShareImage(byte[] imageData, IShareListener listener)
+		void IBridge.ShareImage(byte[] imageData, IBridgeListener listener)
 		{
 			try
 			{
-				_shareListener = listener;
+				ShareCallback._shareListener = listener;
 				int length = imageData.Length;
 				IntPtr buffer = Marshal.AllocHGlobal(length);
 				Marshal.Copy(imageData, 0, buffer, length);
-				ins_openDocumentSharebyData(buffer, length, ShareCallback);
+				ins_openDocumentSharebyData(buffer, length, ShareCallback.OnSuccess, ShareCallback.OnCancel, ShareCallback.OnError);
 			}
 			catch (Exception e)
 			{
 				Debug.LogError("字节流转指针解析错误：" + e.Message);
-				_shareListener?.OnError(-1, e.Message);
-				_shareListener = null;
+				ShareCallback._shareListener?.OnError(-1, e.Message);
+				ShareCallback._shareListener = null;
 			}
 		}
 
-		void IBridge.ShareLink(string linkUrl, IShareListener listener)
+		void IBridge.ShareLink(string linkUrl, IBridgeListener listener)
 		{
-			_shareListener?.OnError(-1, "Unsupported");
+			ShareCallback._shareListener?.OnError(-1, "Unsupported");
 		}
 
-		void IBridge.ShareVideo(string videoUrl, IShareListener listener)
+		void IBridge.ShareVideo(string videoUrl, IBridgeListener listener)
 		{
-			_shareListener?.OnError(-1, "Unsupported");
+			ShareCallback._shareListener?.OnError(-1, "Unsupported");
 		}
 
 		private bool IsInstalled()

@@ -61,7 +61,7 @@ namespace Bridge.InstagramApi
 
 		void IBridge.ShareImage(byte[] imageData, IBridgeListener listener)
 		{
-			listener.OnSuccess();
+			listener.OnSuccess("");
 		}
 
 #endif

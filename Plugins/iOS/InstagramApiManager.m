@@ -8,6 +8,8 @@
 #import <Foundation/Foundation.h>
 #import "InstagramApiManager.h"
 #import "UnityAppController.h"
+#import "UnityAppController.h"
+#import "CommonApi.h"
 
 @implementation InstagramApiManager
 
@@ -147,13 +149,13 @@ static InstagramApiManager* _instance;
         NSLog(@"分享渠道%@", activitytype);
         if (completed) {
             NSLog(@"分享成功");
-            if (self.onFinishShare != nil) {
-                self.onFinishShare(0, [activitytype UTF8String]);
+            if (self.onSuccess != nil) {
+                self.onSuccess([activitytype UTF8String]);
             }
         }else{
             NSLog(@"分享失败");
-            if (self.onFinishShare != nil) {
-                self.onFinishShare(-1, [activitytype UTF8String]);
+            if (self.onError != nil) {
+                self.onError(-1, [activitytype UTF8String]);
             }
         }
     };
@@ -226,24 +228,28 @@ extern "C" {
         return [InstagramApiManager.instance openInstagramAndTags:nsTagName];
     }
     
-    void ins_openDocumentSharebyData(Byte* datas, int length, OnFinishShare onFinishShare){
+    void ins_openDocumentSharebyData(Byte* datas, int length, U3DBridgeCallback_Success onSuccess, U3DBridgeCallback_Cancel onCancel, U3DBridgeCallback_Error onError){
         if(![InstagramApiManager.instance isInstalledInstagram]){
-            onFinishShare(-1, "Instagram not installed");
+            onError(-1, "Instagram not installed");
         }else{
             NSData* imageData = [NSData dataWithBytes:datas length:length];
             UIImage* image = [UIImage imageWithData:imageData];
-            InstagramApiManager.instance.onFinishShare = onFinishShare;
+            InstagramApiManager.instance.onSuccess = onSuccess;
+            InstagramApiManager.instance.onCancel = onCancel;
+            InstagramApiManager.instance.onError = onError;
             [InstagramApiManager.instance openInstagramWithImage:image];
         }
     }
     
-    void ins_openDocumentShare(const char* imagePath, OnFinishShare onFinishShare){
+    void ins_openDocumentShare(const char* imagePath, U3DBridgeCallback_Success onSuccess, U3DBridgeCallback_Cancel onCancel, U3DBridgeCallback_Error onError){
         if(![InstagramApiManager.instance isInstalledInstagram]){
-            onFinishShare(-1, "Instagram not installed");
+            onError(-1, "Instagram not installed");
         }else{
             NSString* path = [NSString stringWithUTF8String:imagePath];
             UIImage* image = [UIImage imageWithContentsOfFile:path];
-            InstagramApiManager.instance.onFinishShare = onFinishShare;
+            InstagramApiManager.instance.onSuccess = onSuccess;
+            InstagramApiManager.instance.onCancel = onCancel;
+            InstagramApiManager.instance.onError = onError;
             [InstagramApiManager.instance openInstagramWithImage:image];
         }
     }

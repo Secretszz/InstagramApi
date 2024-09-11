@@ -21,7 +21,7 @@ namespace Bridge.InstagramApi
 		/// <summary>
 		/// 初始化
 		/// </summary>
-		void Init(IInitListener listener);
+		void Init(IBridgeListener listener);
 
 		/// <summary>
 		/// 是否下载了ins
@@ -74,7 +74,7 @@ namespace Bridge.InstagramApi
 		/// </summary>
 		/// <param name="imageData">图片数据</param>
 		/// <param name="listener">拉起分享窗口事件</param>
-		void ShareImage(byte[] imageData, IShareListener listener);
+		void ShareImage(byte[] imageData, IBridgeListener listener);
 
 #endif
 
@@ -83,20 +83,20 @@ namespace Bridge.InstagramApi
 		/// </summary>
 		/// <param name="imagePath">图片本地地址</param>
 		/// <param name="listener">拉起分享窗口事件</param>
-		void ShareImage(string imagePath, IShareListener listener);
+		void ShareImage(string imagePath, IBridgeListener listener);
 
 		/// <summary>
 		/// 分享链接
 		/// </summary>
 		/// <param name="linkUrl">链接地址</param>
 		/// <param name="listener">拉起分享窗口事件</param>
-		void ShareLink(string linkUrl, IShareListener listener);
+		void ShareLink(string linkUrl, IBridgeListener listener);
 
 		/// <summary>
 		/// 分享视频
 		/// </summary>
 		/// <param name="videoUrl">视频地址</param>
 		/// <param name="listener">拉起分享窗口事件</param>
-		void ShareVideo(string videoUrl, IShareListener listener);
+		void ShareVideo(string videoUrl, IBridgeListener listener);
 	}
 }

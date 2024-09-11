@@ -22,17 +22,15 @@ namespace Bridge.InstagramApi
 	{
 		private const string UnityPlayerClassName = "com.unity3d.player.UnityPlayer";
 		private const string BridgeClassName = "com.bridge.ins.InstagramApi";
-		private const string InitClassName = "com.bridge.ins.IInitListener";
-		private const string ShareClassName = "com.bridge.ins.IShareListener";
 		private AndroidJavaClass bridge;
 		private AndroidJavaObject currentActivity;
 		
-		void IBridge.Init(IInitListener listener)
+		void IBridge.Init(IBridgeListener listener)
 		{
 			AndroidJavaClass unityPlayer = new AndroidJavaClass(UnityPlayerClassName);
 			currentActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
 			bridge = new AndroidJavaClass(BridgeClassName);
-			bridge.CallStatic("init", currentActivity, new InitCallback(listener));
+			bridge.CallStatic("init", currentActivity, new BridgeCallback(listener));
 		}
 
 		bool IBridge.IsInstalled()
@@ -40,7 +38,7 @@ namespace Bridge.InstagramApi
 			return bridge != null && bridge.CallStatic<bool>("isInstalledInstagram", currentActivity);
 		}
 
-		void IBridge.ShareImage(string imagePath, IShareListener listener)
+		void IBridge.ShareImage(string imagePath, IBridgeListener listener)
 		{
 			if (bridge == null)
 			{
@@ -48,11 +46,11 @@ namespace Bridge.InstagramApi
 			}
 			else
 			{
-				bridge?.CallStatic("shareImage", currentActivity, imagePath, new ShareCallback(listener));
+				bridge?.CallStatic("shareImage", currentActivity, imagePath, new BridgeCallback(listener));
 			}
 		}
 
-		void IBridge.ShareLink(string linkUrl, IShareListener listener)
+		void IBridge.ShareLink(string linkUrl, IBridgeListener listener)
 		{
 			if (bridge == null)
 			{
@@ -60,11 +58,11 @@ namespace Bridge.InstagramApi
 			}
 			else
 			{
-				bridge?.CallStatic("ShareLink", currentActivity, linkUrl, new ShareCallback(listener));
+				bridge?.CallStatic("ShareLink", currentActivity, linkUrl, new BridgeCallback(listener));
 			}
 		}
 
-		void IBridge.ShareVideo(string videoUrl, IShareListener listener)
+		void IBridge.ShareVideo(string videoUrl, IBridgeListener listener)
 		{
 			if (bridge == null)
 			{
@@ -72,61 +70,7 @@ namespace Bridge.InstagramApi
 			}
 			else
 			{
-				bridge?.CallStatic("shareVideo", currentActivity, videoUrl, new ShareCallback(listener));
-			}
-		}
-		
-		/// <summary>
-		/// 初始化回调
-		/// </summary>
-		private class InitCallback : AndroidJavaProxy
-		{
-			public InitCallback(IInitListener listener) : base(InitClassName)
-			{
-				this.listener = listener;
-			}
-
-			private IInitListener listener;
-
-			public void onSuccess()
-			{
-				listener?.OnSuccess();
-			}
-
-			public void onError(int errorCode, string errorMessage)
-			{
-				listener?.OnError(errorCode, errorMessage);
-			}
-		}
-
-		/// <summary>
-		/// 分享回调
-		/// </summary>
-		private class ShareCallback : AndroidJavaProxy
-		{
-			public ShareCallback(IShareListener listener) : base(ShareClassName)
-			{
-				this.listener = listener;
-			}
-
-			private IShareListener listener;
-
-			/// <summary>
-			/// 分享成功回调
-			/// </summary>
-			public void onSuccess()
-			{
-				listener?.OnSuccess();
-			}
-
-			/// <summary>
-			/// 分享失败回调
-			/// </summary>
-			/// <param name="errorCode">错误码</param>
-			/// <param name="errorMessage">错误信息</param>
-			public void onError(int errorCode, string errorMessage)
-			{
-				listener?.OnError(errorCode, errorMessage);
+				bridge?.CallStatic("shareVideo", currentActivity, videoUrl, new BridgeCallback(listener));
 			}
 		}
 	}

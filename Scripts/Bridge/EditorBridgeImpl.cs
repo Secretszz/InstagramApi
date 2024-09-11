@@ -17,9 +17,9 @@ namespace Bridge.InstagramApi
 	/// </summary>
 	public class EditorBridgeImpl : IBridge
 	{
-		void IBridge.Init(IInitListener listener)
+		void IBridge.Init(IBridgeListener listener)
 		{
-			listener.OnSuccess();
+			listener.OnSuccess("");
 		}
 
 		bool IBridge.IsInstalled()
@@ -59,26 +59,26 @@ namespace Bridge.InstagramApi
 			return false;
 		}
 
-		void IBridge.ShareImage(byte[] imageData, IShareListener listener)
+		void IBridge.ShareImage(byte[] imageData, IBridgeListener listener)
 		{
 			listener.OnSuccess();
 		}
 
 #endif
 
-		void IBridge.ShareImage(string imagePath, IShareListener listener)
+		void IBridge.ShareImage(string imagePath, IBridgeListener listener)
 		{
-			listener.OnSuccess();
+			listener.OnSuccess("");
 		}
 
-		void IBridge.ShareLink(string linkUrl, IShareListener listener)
+		void IBridge.ShareLink(string linkUrl, IBridgeListener listener)
 		{
-			listener.OnSuccess();
+			listener.OnSuccess("");
 		}
 
-		void IBridge.ShareVideo(string videoUrl, IShareListener listener)
+		void IBridge.ShareVideo(string videoUrl, IBridgeListener listener)
 		{
-			listener.OnSuccess();
+			listener.OnSuccess("");
 		}
 	}
 }

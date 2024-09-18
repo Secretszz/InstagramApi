@@ -11,6 +11,7 @@
 #if UNITY_ANDROID
 namespace Bridge.FacebookApi
 {
+    using System.Xml.Linq;
     using System.IO;
     using UnityEngine;
     using UnityEditor;
@@ -23,6 +24,7 @@ namespace Bridge.FacebookApi
         public static void OnPostprocessBuild(BuildTarget target, string projectPath)
         {
             CopyNativeCode(projectPath);
+            Common.ManifestProcessor.QueriesElements.Add(new XElement("package", new XAttribute(Common.ManifestProcessor.ns + "name", "com.instagram.android")));
         }
 
         private static void CopyNativeCode(string projectPath)

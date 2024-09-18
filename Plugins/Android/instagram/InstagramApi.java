@@ -1,4 +1,4 @@
-﻿package com.bridge.instagram;
+package com.bridge.instagram;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -20,48 +20,54 @@ public class InstagramApi {
         try {
             activity.getPackageManager().getApplicationInfo(packageName, 0);
             return true;
-        } catch (Exception var2) {
+        } catch (Exception ex){
             return false;
         }
     }
-    
+
     public static void init(Activity activity, IBridgeListener listener){
         listener.onSuccess("");
     }
 
     /**
      * 分享图片
+     * @param activity 主activity
      * @param imagePath 图片本地地址
+     * @param listener 分享回调
      */
-    public static void shareImage(Activity activity, final String imagePath, final IBridgeListener listener){
+    public static void shareImage(Activity activity, String imagePath, IBridgeListener listener){
         String type = "image/*";
         createInstagramIntent(activity, type, imagePath, listener);
     }
 
     /**
      * 分享视频
+     * @param activity 主activity
      * @param videoUrl 视频本地地址
+     * @param listener 分享回调
      */
-    public static void shareVideo(Activity activity, String videoUrl, final IBridgeListener listener) {
+    public static void shareVideo(Activity activity, String videoUrl, IBridgeListener listener){
         String type = "video/*";
         createInstagramIntent(activity, type, videoUrl, listener);
     }
 
     /**
-     * 分享视频
+     * 分享链接
+     * @param activity 主activity
      * @param linkUrl 链接地址
+     * @param listener 分享回调
      */
-    public static void shareLink(Activity activity, String linkUrl, final IBridgeListener listener) {
-		listener.onError(-1, "unsupported");
+    public static void shareLink(Activity activity, String linkUrl, IBridgeListener listener){
+        listener.onError(-1, "Unsupported");
     }
 
-    private static void createInstagramIntent(Activity activity, String type, String mediaPath, final IBridgeListener listener){
+    private static void createInstagramIntent(Activity activity, String type, String mediaPath, IBridgeListener listener){
         if (!isInstalledInstagram(activity)){
             listener.onError(-1, "Instagram not installed");
             return;
         }
         try {
-            // Create the new Intent using the 'Send' action.
+            // Create the new Intent using the 'Send' action
             Intent share = new Intent(Intent.ACTION_SEND);
 
             // Set the MIME type
@@ -69,15 +75,14 @@ public class InstagramApi {
 
             // Create the URI from the media
             Uri uri;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {//android 7.0以上
-                //第二个参数："app的包名.fileProvider"
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
                 uri = FileProvider.getUriForFile(activity, activity.getPackageName() + ".provider", new File(mediaPath));
                 share.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             } else {
                 uri = Uri.fromFile(new File(mediaPath));
             }
 
-            // Add the URI to the Intent.
+            //Add the URI to the Intent.
             share.putExtra(Intent.EXTRA_STREAM, uri);
             share.setPackage(packageName);
             // Broadcast the Intent.

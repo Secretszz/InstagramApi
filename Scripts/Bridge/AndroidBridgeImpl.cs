@@ -21,7 +21,7 @@ namespace Bridge.InstagramApi
 	internal class AndroidBridgeImpl : IBridge
 	{
 		private const string UnityPlayerClassName = "com.unity3d.player.UnityPlayer";
-		private const string BridgeClassName = "com.bridge.ins.InstagramApi";
+		private const string BridgeClassName = "com.bridge.instagram.InstagramApi";
 		private AndroidJavaClass bridge;
 		private AndroidJavaObject currentActivity;
 		

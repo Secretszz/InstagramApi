@@ -15,7 +15,7 @@ namespace Bridge.InstagramApi
 	/// <summary>
 	/// 
 	/// </summary>
-	public class EditorBridgeImpl : IBridge
+	internal class EditorBridgeImpl : IBridge
 	{
 		void IBridge.Init(IBridgeListener listener)
 		{
@@ -26,8 +26,6 @@ namespace Bridge.InstagramApi
 		{
 			return false;
 		}
-
-#if UNITY_IOS
 
 		bool IBridge.OpenApp()
 		{
@@ -63,8 +61,6 @@ namespace Bridge.InstagramApi
 		{
 			listener.OnSuccess("");
 		}
-
-#endif
 
 		void IBridge.ShareImage(string imagePath, IBridgeListener listener)
 		{

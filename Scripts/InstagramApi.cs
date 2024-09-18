@@ -10,6 +10,7 @@
 
 namespace Bridge.InstagramApi
 {
+	using System;
 	using Common;
 
 	/// <summary>
@@ -51,44 +52,61 @@ namespace Bridge.InstagramApi
 			return bridgeImpl.IsInstalled();
 		}
 
-#if UNITY_IOS
-
+#if !UNITY_IOS
+		[Obsolete("Only available on iOS", true)]
+#endif
 		public static bool OpenApp()
 		{
 			return bridgeImpl.OpenApp();
 		}
 
+#if !UNITY_IOS
+		[Obsolete("Only available on iOS", true)]
+#endif
 		public static bool OpenAppAndCamara()
 		{
 			return bridgeImpl.OpenAppAndCamara();
 		}
 
+#if !UNITY_IOS
+		[Obsolete("Only available on iOS", true)]
+#endif
 		public static bool OpenAppAndMedia(int mediaId)
 		{
 			return bridgeImpl.OpenAppAndMedia(mediaId);
 		}
 
+#if !UNITY_IOS
+		[Obsolete("Only available on iOS", true)]
+#endif
 		public static bool OpenAppAndUser(string username)
 		{
 			return bridgeImpl.OpenAppAndUser(username);
 		}
 
+#if !UNITY_IOS
+		[Obsolete("Only available on iOS", true)]
+#endif
 		public static bool OpenAppAndLocations(int locationId)
 		{
 			return bridgeImpl.OpenAppAndLocations(locationId);
 		}
 
+#if !UNITY_IOS
+		[Obsolete("Only available on iOS", true)]
+#endif
 		public static bool OpenAppAndTags(string tagName)
 		{
 			return bridgeImpl.OpenAppAndTags(tagName);
 		}
 
+#if !UNITY_IOS
+		[Obsolete("Only available on iOS", true)]
+#endif
 		public static void ShareImage(byte[] imageData, IBridgeListener listener)
 		{
 			bridgeImpl.ShareImage(imageData, listener);
 		}
-
-#endif
 
 		public static void ShareImage(string imagePath, IBridgeListener listener)
 		{

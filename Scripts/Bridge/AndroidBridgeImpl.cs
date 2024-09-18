@@ -39,6 +39,41 @@ namespace Bridge.InstagramApi
 			return api != null && api.Call<bool>("isInstalledInstagram", currentActivity);
 		}
 
+		bool IBridge.OpenApp()
+		{
+			return false;
+		}
+
+		bool IBridge.OpenAppAndCamara()
+		{
+			return false;
+		}
+
+		bool IBridge.OpenAppAndMedia(int mediaId)
+		{
+			return false;
+		}
+
+		bool IBridge.OpenAppAndUser(string username)
+		{
+			return false;
+		}
+
+		bool IBridge.OpenAppAndLocations(int locationId)
+		{
+			return false;
+		}
+
+		bool IBridge.OpenAppAndTags(string tagName)
+		{
+			return false;
+		}
+
+		void IBridge.ShareImage(byte[] imageData, IBridgeListener listener)
+		{
+			listener.OnError(-1, "Only available on iOS");
+		}
+
 		void IBridge.ShareImage(string imagePath, IBridgeListener listener)
 		{
 			if (api == null)

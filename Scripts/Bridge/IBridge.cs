@@ -29,8 +29,6 @@ namespace Bridge.InstagramApi
 		/// <returns></returns>
 		bool IsInstalled();
 
-#if UNITY_IOS
-
 		/// <summary>
 		/// 启动 Instagram 应用。
 		/// </summary>
@@ -75,8 +73,6 @@ namespace Bridge.InstagramApi
 		/// <param name="imageData">图片数据</param>
 		/// <param name="listener">拉起分享窗口事件</param>
 		void ShareImage(byte[] imageData, IBridgeListener listener);
-
-#endif
 
 		/// <summary>
 		/// 分享图片

@@ -16,7 +16,15 @@ public class InstagramApi {
     private final static String TAG = InstagramApi.class.getName();
     private final static String packageName = "com.instagram.android";
 
-    public static boolean isInstalledInstagram(Activity activity){
+    private static class Holder{
+        public final static InstagramApi INSTANCE = new InstagramApi();
+    }
+
+    public static InstagramApi getInstance(){
+        return Holder.INSTANCE;
+    }
+
+    public boolean isInstalledInstagram(Activity activity){
         try {
             activity.getPackageManager().getApplicationInfo(packageName, 0);
             return true;
@@ -25,7 +33,7 @@ public class InstagramApi {
         }
     }
 
-    public static void init(Activity activity, IBridgeListener listener){
+    public void init(Activity activity, IBridgeListener listener){
         listener.onSuccess("");
     }
 
@@ -35,7 +43,7 @@ public class InstagramApi {
      * @param imagePath 图片本地地址
      * @param listener 分享回调
      */
-    public static void shareImage(Activity activity, String imagePath, IBridgeListener listener){
+    public void shareImage(Activity activity, String imagePath, IBridgeListener listener){
         String type = "image/*";
         createInstagramIntent(activity, type, imagePath, listener);
     }
@@ -46,7 +54,7 @@ public class InstagramApi {
      * @param videoUrl 视频本地地址
      * @param listener 分享回调
      */
-    public static void shareVideo(Activity activity, String videoUrl, IBridgeListener listener){
+    public void shareVideo(Activity activity, String videoUrl, IBridgeListener listener){
         String type = "video/*";
         createInstagramIntent(activity, type, videoUrl, listener);
     }
@@ -57,11 +65,11 @@ public class InstagramApi {
      * @param linkUrl 链接地址
      * @param listener 分享回调
      */
-    public static void shareLink(Activity activity, String linkUrl, IBridgeListener listener){
+    public void shareLink(Activity activity, String linkUrl, IBridgeListener listener){
         listener.onError(-1, "Unsupported");
     }
 
-    private static void createInstagramIntent(Activity activity, String type, String mediaPath, IBridgeListener listener){
+    private void createInstagramIntent(Activity activity, String type, String mediaPath, IBridgeListener listener){
         if (!isInstalledInstagram(activity)){
             listener.onError(-1, "Instagram not installed");
             return;

@@ -21,56 +21,57 @@ namespace Bridge.InstagramApi
 	internal class AndroidBridgeImpl : IBridge
 	{
 		private const string UnityPlayerClassName = "com.unity3d.player.UnityPlayer";
-		private const string BridgeClassName = "com.bridge.instagram.InstagramApi";
-		private AndroidJavaClass bridge;
+		private const string ManagerClassName = "com.bridge.instagram.InstagramApi";
+		private AndroidJavaObject api;
 		private AndroidJavaObject currentActivity;
 		
 		void IBridge.Init(IBridgeListener listener)
 		{
 			AndroidJavaClass unityPlayer = new AndroidJavaClass(UnityPlayerClassName);
 			currentActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
-			bridge = new AndroidJavaClass(BridgeClassName);
-			bridge.CallStatic("init", currentActivity, new BridgeCallback(listener));
+			AndroidJavaClass jc = new AndroidJavaClass(ManagerClassName);
+			api = jc.CallStatic<AndroidJavaObject>("getInstance");
+			api.Call("init", currentActivity, new BridgeCallback(listener));
 		}
 
 		bool IBridge.IsInstalled()
 		{
-			return bridge != null && bridge.CallStatic<bool>("isInstalledInstagram", currentActivity);
+			return api != null && api.Call<bool>("isInstalledInstagram", currentActivity);
 		}
 
 		void IBridge.ShareImage(string imagePath, IBridgeListener listener)
 		{
-			if (bridge == null)
+			if (api == null)
 			{
 				listener.OnError(-1, "empty bridge");
 			}
 			else
 			{
-				bridge?.CallStatic("shareImage", currentActivity, imagePath, new BridgeCallback(listener));
+				api?.Call("shareImage", currentActivity, imagePath, new BridgeCallback(listener));
 			}
 		}
 
 		void IBridge.ShareLink(string linkUrl, IBridgeListener listener)
 		{
-			if (bridge == null)
+			if (api == null)
 			{
 				listener.OnError(-1, "empty bridge");
 			}
 			else
 			{
-				bridge?.CallStatic("ShareLink", currentActivity, linkUrl, new BridgeCallback(listener));
+				api?.Call("ShareLink", currentActivity, linkUrl, new BridgeCallback(listener));
 			}
 		}
 
 		void IBridge.ShareVideo(string videoUrl, IBridgeListener listener)
 		{
-			if (bridge == null)
+			if (api == null)
 			{
 				listener.OnError(-1, "empty bridge");
 			}
 			else
 			{
-				bridge?.CallStatic("shareVideo", currentActivity, videoUrl, new BridgeCallback(listener));
+				api?.Call("shareVideo", currentActivity, videoUrl, new BridgeCallback(listener));
 			}
 		}
 	}

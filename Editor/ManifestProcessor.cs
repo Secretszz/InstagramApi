@@ -9,14 +9,14 @@
 // *******************************************
 
 #if UNITY_ANDROID
-namespace Bridge.FacebookApi
+namespace Bridge.InstagramApi
 {
     using System.Xml.Linq;
     using System.IO;
     using UnityEngine;
     using UnityEditor;
     using UnityEditor.Callbacks;
-    using Editor;
+    using Common;
 
     internal static class ManifestProcessor
     {

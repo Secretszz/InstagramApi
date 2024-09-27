@@ -29,7 +29,7 @@ namespace Bridge.InstagramApi
 
         private static void CopyNativeCode(string projectPath)
         {
-            var sourcePath = ThirdSDKPackageManager.GetUnityPackagePath(ThirdSDKPackageManager.InstagramApiPackageName);
+            var sourcePath = ThirdSDKPackageManager.GetUnityPackagePath(PackageType.Instagram);
             if (string.IsNullOrEmpty(sourcePath))
             {
                 // 这个不是通过ump下载的包，查找工程内部文件夹
